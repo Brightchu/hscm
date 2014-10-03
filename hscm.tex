@@ -1,0 +1,706 @@
+
+% version log
+%hsmgc13-2 delete the section IV and corresponding content
+%hsmgc13 change ith scatter to ith multi-path component
+%hsmgc12 modified by Prof. Zhang
+%hsmgc11
+%hsmgc10 II.C modification
+%hsmgc9 change uplink to downlink version
+%       change multipath to multi-path
+%       hide the citation [11] "Experimental study of propagation"
+%       switch reference [12] [13]
+%       hide the reference "Capability of 3-D Ray"
+%       modified following  zhangyu's review
+%hsmgc8 change the notation of average AOA from \alpha to \theta_0
+%hsmgc7 modify the intro by huazi.
+\documentclass[10pt, conference]{IEEEtran}
+
+%\usepackage[cmex10]{amsmath}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{bbding}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{latexsym}
+\usepackage{cite,epsfig}
+%\usepackage{caption3}
+\usepackage{pifont}
+\usepackage{stmaryrd}
+\usepackage{subfigure}
+\usepackage{booktabs}
+\usepackage{cases}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{stfloats}
+
+\hyphenation{op-tical net-works semi-conduc-tor }
+
+
+
+\begin{document}
+%\def\@maketitle{\newpage
+%\begingroup\centering
+%\ifCLASSOPTIONtechnote% technotes
+%   {\bfseries\large\@IEEEcompsoconly{\sffamily}\@title\par}\vskip 1.3em{\lineskip .5em\@IEEEcompsoconly{\sffamily}\@author
+%   \@IEEEspecialpapernotice\par{\@IEEEcompsoconly{\vskip 1.5em\relax
+%   \@IEEEcompsoctitleabstractindextextbox{\@IEEEcompsoctitleabstractindextext}\par
+%   \hfill\@IEEEcompsocdiamondline\hfill\hbox{}\par}}}\relax
+%\else% not a technote
+%   \vskip0.2em{\Huge\@IEEEcompsoconly{\sffamily}\@IEEEcompsocconfonly{\normalfont\normalsize\vskip 2\@IEEEnormalsizeunitybaselineskip
+%   \bfseries\Large}\@title\par}\vskip -1.0em\par%
+%   % V1.6 handle \author differently if in conference mode
+%   \ifCLASSOPTIONconference%
+%      {\@IEEEspecialpapernotice\mbox{}\vskip\@IEEEauthorblockconfadjspace%
+%       \mbox{}\hfill\begin{@IEEEauthorhalign}\@author\end{@IEEEauthorhalign}\hfill\mbox{}\par}\relax
+%   \else% peerreviewca, peerreview or journal
+%      \ifCLASSOPTIONpeerreviewca
+%         % peerreviewca handles author names just like conference mode
+%         {\@IEEEcompsoconly{\sffamily}\@IEEEspecialpapernotice\mbox{}\vskip\@IEEEauthorblockconfadjspace%
+%          \mbox{}\hfill\begin{@IEEEauthorhalign}\@author\end{@IEEEauthorhalign}\hfill\mbox{}\par
+%          {\@IEEEcompsoconly{\vskip 1.5em\relax
+%           \@IEEEcompsoctitleabstractindextextbox{\@IEEEcompsoctitleabstractindextext}\par\hfill
+%           \@IEEEcompsocdiamondline\hfill\hbox{}\par}}}\relax
+%      \else% journal or peerreview
+%         {\lineskip.5em\@IEEEcompsoconly{\sffamily}\sublargesize\@author\@IEEEspecialpapernotice\par
+%          {\@IEEEcompsoconly{\vskip 1.5em\relax
+%           \@IEEEcompsoctitleabstractindextextbox{\@IEEEcompsoctitleabstractindextext}\par\hfill
+%           \@IEEEcompsocdiamondline\hfill\hbox{}\par}}}\relax
+%      \fi
+%   \fi
+%\fi\par\endgroup}
+
+
+\title{A Spatial-Temporal Correlation Model for High Mobility Wireless Channels}
+\author{\IEEEauthorblockN{Liangliang Zhu, Zhaoyang Zhang\IEEEauthorrefmark{2}, Huazi Zhang, Yu Zhang, and Caijun Zhong}
+\IEEEauthorblockA{Department of Information Science and Electronic Engineering, Zhejiang University, China\\
+Emails: \{zllzju, ning\_ming\IEEEauthorrefmark{2}, caijunzhong\}@zju.edu.cn, tom.zju@gmail.com, zhangyu\_wing@hotmail.com}}
+\maketitle
+
+
+\begin{abstract}
+Existing channel modeling method may not apply well to the high mobility communication scenarios, such as the high speed railway communications, as they implicitly overlook the dynamic of ambient objects, or, the variation of local scattering caused by the very fast changing of mobile station locations.
+In this paper, we propose an HSR fading channel model by characterizing the time-dependent evolution of ambient scattering  under linear mobility, and analyze the spatial and temporal channel correlation as a function of both the distribution of surrounding objects and the moving speed. Several useful insights are provided. The results would shed some light on the design of high mobility communication systems.
+%we propose a variation process model of local scattering for multipath propagation under linear mobility, and analyze the spatial and temporal channel correlation as a function of both the distribution of surrounding objects and the moving speed. Several useful insights are provided. The results may shed some light on the design of high mobility communication systems.
+\end{abstract}
+
+\IEEEpeerreviewmaketitle
+
+
+
+\section{Introduction}
+\parskip 0pt plus 2pt minus 1pt %\showthe\parskip  %adjust the space between paragraphs.
+Recently, the high-speed railway (HSR) systems have been developed rapidly around the world, e.g., French TGV, Japanese Shinkansen, Chinese CHR, etc. China has the world's longest HSR network with $10,400\,$km of routes in service as of September 2013,
+%and up to $25,000\,$km by 2020 as planned, connecting nearly all the major cities
+with trains reaching speed of $350\,$km/h.
+%Besides, CHR is becoming a main intercity transportation with 1.33 million daily ridership, which has quadrupled in the last 5 years.
+Meanwhile, the development of HSR system boosts the demand for high-rate and reliable wireless communications over high speed vehicles.
+
+%[2014-03-30 22:46]%Ultra-high mobility, along with the dynamically changing scattering environment, has posed unprecedented challenges to incumbent communication systems and reshapes channel modeling in a way that has not been considered before. %not only  brings impacts on multipath propagation of signal but also affects the local scattering environment.
+%The model for fading of high mobility channel should dually incorporate the fluctuation in time and space domain.
+%Time-varying is one key feature of high mobility communications.
+Exiting channel models for high-speed terrestrial cellular communication systems can be classified into measurement-based models and  theoretical models.
+Recently, several channel measurement campaigns have been conducted for HSR communication systems (see \cite{rural} - \cite{cutting2}).
+These measurements mainly focus on the channel parameters such as path loss, delay spread, and fading statistics, but do not emphasize on the channel correlation. An exception is \cite{aoa},  which models the distribution of angles of arrival (AOA) and provides correlation function, but in low-speed scenarios.
+Meanwhile, some measurement-based models have been standardized, such as the Long Term Evolution Railway (LTE-R) \cite{ltea}, WINNER-II\cite{winner} and IMT-A\cite{imta} channel models.
+%The LTE-R is a broadband railway wireless communication system but only addresses a relatively simple single-path fast fading channel model. \cite{winner} contains both large-scale and small-scale channel properties in  rural macro-cell scenarios, while \cite{imta} considers the mobile network scenarios, where the vehicle speed can reach up to 350km/h.
+
+However, measurement-based channel models for high-speed scenarios are developed with traditional channel modeling theories, in which the channels are generally modeled as quasi-stationary.
+%while the WSS condition has been proved to be incorrect by measurements \cite{nonwss}.
+%in low-speed scenarios, which may  fail to depict the channel features in high-speed scenarios.
+Recently, several theoretical works paid specific attention to the time-varying and non-stationary channel models in which channel parameters are \emph{analytically} modeled as functions of time (or equivalently the distance traversed).
+Among them, \cite{kno1} models the propagation channels using the ray-tracing method, and \cite{non} proposes a geometry-based stochastic model for time-varying MIMO channel.
+The common ground for these models are time-varying channel parameters such as path loss, shadowing and delay drift.
+
+%However, there is another key feature of high mobility communications, \emph{the variation process of local scattering}, not been looked into by existing models.
+%When the mobile station (MS) velocity is high, the reflecting scatterers surrounding the MS may undergo dramatic changing process.
+Motivated by this line of works, we further analyze another channel parameter of interest, i.e., time-varying channel correlation, in particular for HSR communication systems.
+As the train moves forward, the surrounding objects, especially those very near the train, move backward quickly over time, which leads to dramatic change of multi-path profile from the perspective of the train.
+We coin this phenomenon \emph{the variation of local scattering}, to distinguish from existing works that usually assume the reflecting scatterers are static during the time of interest.
+%In mobile terrestrial cellular systems, the reflecting scatterers surrounding the MS may undergo dramatic changing process, especially in high-speed scenarios. We call this feature \emph{the variation process of local scattering}.
+%This feature may strongly affect the multipath propagation characteristic of channel on small scale level, such as the channel correlation.
+To our best knowledge, the effect of time-varying local scattering on channel correlation has not been specifically investigated in literature.
+%the channel models in the literature ignore to model the variation process of scattering, they  usually assume the  reflecting scatterers are static during the time of interest, which will been shown  to deviating from  reality in the simulation results of our work.
+%They ignore to model the dramatic changing process of local reflecting scatterers and the corresponding  impacts on multipath propagation on small scale level, which will been show  to deviating from  reality in the simulation results of our work.
+%How will this non-trivial scattering variation affect the channel between the base station (BS) and the MS on small scale level, such as channel correlation, has not been looked into yet.
+%Therefore, a channel model appropriately characterizing this specific feature of high mobility communications is needed.
+%And the measurements are based on the traditional channel models,
+%while channel models for high speed scenes in the literature  usually ignore the time-varying characteristics, such as
+%[2014-03-30 22:56]%the fail to demonstrate the different propagation parameters of wireless channels in high mobility scenarios.
+%The Long Term Evolution Railway (LTE-R) \cite{ltea} which is a broadband railway wireless communication system and provides a relatively simple single-path fast fading channel model, and WINNER-II \cite{winner} which also  provides channel models for high-speed train in  rural macro-cell scenarios.
+%\cite{kno1} models the propagation channels using the ray-tracing method \cite{kno2}, %which incorporates a detailed simulation of the actual physical wave propagation process,
+%and \cite{non} proposes a wideband geometry-based stochastic model for MIMO high-speed train channel.
+%Both \cite{kno1} and \cite{non} provide non-stationary time-varying channel models.
+%However, the time-varying feature is caused by distance-dependant large scale parameters like path loss, shadowing and delay drift,
+
+
+%Traditionally, the scattering environment is usually assumed to be unchanged within the duration of interest.
+%This assumption may no longer hold in the high mobility scenarios, in which the signal paths may be dramatically altered within milliseconds.
+%In such scenarios, the displacement of mobile device is comparatively significant, and thus cannot be neglected.
+
+In this paper, we propose  an HSR fading channel model by characterizing the time-dependent evolution of ambient scattering.
+%as a consequence of both the fast movement of vehicle and the spatial distribution of local scatterers.
+The system is constituted by a fast-moving mobile station (MS) with multi-antenna and a fixed base station (BS). % with a single-antenna .
+The spatial distribution of the objects surrounding the MS is modeled as Poisson point process (PPP) \cite{spatial}.
+%As a result, the changing of components in received signal, generated by the relative movements of surrounding reflecting objects, is also modeled as a Poisson process under linear mobility.
+When the MS moves through these Poisson distributed objects at a constant speed, the changing process of the signal components reflected from these surrounding objects also undergoes a similar Poisson process\footnote{The argument will be elaborated in Section III.}.
+The non-isotropic scattering is modeled following \cite{aoa}, which uses the von Mises distribution for AOA.
+Based on the model, we obtain an analytical spatial-temporal correlation function for signal received at different time  and positions.
+The correlation function characterizes both the Doppler spread  and the fast-changing multi-path profile caused by variation of local scattering.
+Through computational simulations, the correlation decay function is plotted with respect to both space and time  and its practical implications are discussed.
+%function depicts the impact of the varying scattering on multipath propagation, which is also shown in the
+
+The rest of this paper is organized as follows. In Section II, we describe the communication scenario, the propagation model, and the angle of arrival model.
+In Section III, we propose a new model for the variation of ambient scattering.
+Based on the system model, a spatial-temporal correlation function of the complex envelop is derived in Section IV.
+%In Section IV, The model is generalized  to address more complicated scattering scenario.
+In Section V, two practical channel statistics, coherence time and LCR, are given as application examples .
+Computational simulations are carried out in  Section VI.
+Finally, the paper is summarized in Section VII.
+
+\section{System Description}
+\subsection{The Multi-path Propagation Model}
+In this paper, we focus on the downlink transmissions, i.e., the signal is transmitted from a fix BS to a high-speed MS.
+Note that the results may also apply to uplink due to duality.
+We assume that the antennas are omnidirectional, all waves are planar, and the MS is uniformly moving within the observing duration.
+Typically, in the terrestrial radio systems, the BS is placed in the far field of the MS, and the MS is surrounded by a complicated local scattering environment \cite{lee}.
+Thus, the signal received at the MS antennas is composed of multi-paths.
+%Hence, the ``one-ring scattering'' model presented by Lee \cite{lee} may be appropriately applied in our scenario, where the
+Without loss of generality, line-of-sight (LoS) link is not considered as in \cite{lee}\cite{abdi}. It can be extended in follow-up studies. Additionally, We assume frequency non-selective fading channels.
+
+Fig.\ref{mpm} shows the multi-path propagation from one BS antenna to two MS antennas.
+We set the MS array as origin and axis of polar coordinate.
+%with BS antenna and MS array elements line as the origin and axis of polar coordinate, respectively.
+%It is assumed that the BS is in the far field of the MS and the scattering ring.
+%The aperture of the BS array is comparatively small, thus the waves impinging two BS antennas from the same scatterer are essentially parallel.
+%The MS is surrounded by $K$ scatterers in the horizontal plane.
+Without loss of generality, we assume that there are $L$ scattering paths impinging the antennas of the MS.
+$\theta_l$ denotes the incidence angle of the $l$th path, reflected by a certain scatterer close to the MS.
+The MS elements spacing is $d$.
+$v$ and $\beta$ are the moving velocity and direction of the MS.
+%Several other fundamental parameters are specified:
+%R and $\alpha$ are the BS radius and azimuth in the polar coordinate;
+%$\theta_i$ is the azimuth of the $i$th component at MS antennas;
+The carrier frequency is $f_c$, the wavelength is $\lambda$.
+If the BS sends a unit-power unmodulated carrier, via frequency flat channel, the complex envelope low-pass equivalent of the signal at each MS antenna is
+\begin{equation}\label{signal}
+g_\xi\left( t \right) = \mathop \sum \limits_{l = 1}^L {{\rm{\Xi }}_l}\left( t \right){e^{j{{\rm{\Psi }}_l}\left( t \right)}}{e^{ - j{{\vec k}_{\xi l}(t)}\cdot{{\vec r}_{\xi l}}(t)}}{e^{j{\phi _{0}}}},
+\end{equation}
+where $\xi\!\in\!\left\{1,2\right\}$ is the index of MS antenna, ${\vec k}_{\xi l}(t)$ and ${\vec r}_{\xi l}(t)$ are the wave vector of the $l$th path impinging the MS and the position vector of the corresponding scatterer, respectively. $\big\|{{\vec k}_{\xi l}(t)}\big\|\!=\!{2\pi}/{\lambda}$ is the angular wavenumber.
+${\vec r}_{\xi l}(t+\tau)={\vec r}_{\xi l}(t)+{\vec v}\tau$, ${\vec v}$ is the velocity vector of the MS.
+${{\rm{\Xi }}_l}\!\left( t \right)$, ${{\rm{\Psi }}_l}\!\left( t \right)$ are two independent random variables representing amplitude gain and frequency shift of the $l$th path, respectively,
+and ${\phi _{0}}$ is  the random initial phase of the $l$th path.
+For brevity,  we define
+\begin{equation}\label{path}
+{A_l}\left( t \right)\triangleq {{\rm{\Xi }}_l}\left( t \right){e^{j{{\rm{\Psi }}_l}\left( t \right)}},\qquad \left(l=1, 2, \cdots, L\right),
+\end{equation}
+and we call $\left\{A_l(t)\!:\! t\!>\!0\right\}$ the {\emph{path gain process}}. $\left\{A_l(t)\right\}$ is assumed to be stationary and ergodic.
+Thus, \eqref{signal} can be rewritten as
+\begin{equation}\label{signalb}
+g_\xi\left( t \right) = \mathop \sum \limits_{l = 1}^L {A_l}\left( t \right){e^{ - j{{\vec k}_{\xi l}(t)}\cdot{{\vec r}_{\xi l}}(t)}}{e^{j{\phi _{0}}}}.
+\end{equation}
+Under the assumption of uncorrelated scattering, $A_i(t)$ and $A_j(t)$ are independent for all $i\! \ne \!j$. As $L$ grows, $g_\xi\left( t \right)$ tends to become a zero-mean complex Gaussian process due to the central limit theorem.
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.5\textwidth]{mpm6-2.eps}
+\caption{The local scattering model for multi-path propagation.} \label{mpm}
+\end{figure}
+
+\subsection{The Angle of Arrival Model}
+We use von Mises distribution to model the probability density function (pdf) of AOA \cite{aoa}. The random variable $\Theta$ denotes the AOA of signal components at the receiver, and its pdf is von Mises distributed, given as
+\begin{equation}\label{1aoa}
+{p_{{\Theta }}}\left( \theta  \right) = \frac{{\exp \left[ {\kappa \cos \left( {\theta  - {\theta _0}} \right)} \right]}}
+{{2\pi {I_0}\left( \kappa  \right)}}, \qquad \theta\in\left[-\pi,\pi\right),
+\end{equation}
+where $I_0\left(\cdot\right)$ is the zero-order modified Bessel function of the first kind, and $\mathbf{E}\left[\Theta\right]=\theta_0$. $\kappa\!\!\in\!\!\left[0,\infty\right)$ controls the angular spread of received signal.
+As $\kappa$ decreases to $0$, the AOA pdf converges to be uniformly distributed, that is isotropic scattering. While $\kappa$ increases to infinity, the pdf converges to a Dirac delta function $\delta\left(\theta-\theta_0\right)$.
+And for moderate and large value of $\kappa$, the von Mises distribution is an accurate approximation to Gaussian pdf with mean $\theta_0$ and variance $1/\kappa$ \cite{von}.
+The von Mises distribution is a flexible model for the pdf of AOAs, which includes a variety of nonisotropic and isotropic scattering scenarios.
+What's more, it brings mathematical convenience in analysis like providing determination of closed-form solutions for the correlation functions, power spectra, etc.
+
+\section{Modeling for Variation of Local Scattering}
+Previous channel models usually assume that the {path gain process} of the received signal components, $\left\{A_l(t)\right\}$, is static within the duration of interest.
+This is based on the implicit assumption that the reflecting scatterers remain static within the interval.
+Granted, this assumption holds in low-speed movement or low-density scattering scenarios.
+However, with the velocity increasing or scattering intensified, this assumption tends to deviate from reality, making the previous channel models less accurate.
+
+%Notably, this modeling is not only mathematical tractable in the later analysis, but also has physical meanings.
+%We assume that only single scattering occurs and each scatterer is imagined as a point with negligible physical size.
+%Hence, the scatterers may be assumed to be randomly distributed points within a two-dimensional area according a random spatial pattern.
+In our scenario, each scatterer is assumed to be a point, through which the signal from the BS is reflected to the train.
+We assume  the spatial distribution of surrounding objects to be homogeneous Poisson point process, which is commonly used \cite{spatial}.
+When the MS moves through, the dynamics of the signal components reflected through these surrounding objects is a temporal stochastic  process  determined by both the objects' spatial distribution and the MS's moving speed.
+Given that the MS moves at a constant speed, the spatial Poisson process is mapped to a temporal Poisson process, which corresponds to the dynamics of the received signal components at the MS.
+Meanwhile, the rate of this temporal Poisson process is proportional to both the spatial density of objects and the MS velocity,
+\begin{equation}\label{lambda0}
+\lambda_0={c_0}v,
+\end{equation}
+where $c_0$ is a real-valued constant {characterizing the inherent spatial property,}
+and it is proportional to the scattering point process intensity.
+So, the interval ${\rm{\Delta }}{t_l}$ between two consecutive variations of $A_l(t)$ is exponentially distributed with parameter $\lambda_0$.
+So far, the ground for the variation of local scattering is clarified in the physical sense.
+
+%the changing process of  also undergoes a similar Poisson process.
+
+%We consider single scattering, which means each multi-path component is reflected only once from BS to MS.
+%Hence, the scatterers are a set of points randomly distributed over a two-dimensional plane according to a spatial point process.
+
+%The scattering points on any line over the field is also Poisson point process with identical constant intensity $\lambda_s$.
+%The number of scattering points in spatial interval ${\rm{\Delta }}{d}$ has a Poisson distribution with parameter $\lambda_s\,{\rm{\Delta }}{d}$.
+
+%On the other hand, the scattering variation are caused by the traverse movement of the MS through the local scatterers.
+%On the other hand, the traverse movement of the MS through the local scatterers would cause the variation of reflecting scatterer set.
+%Considering a certain multipath component, taking the one reflected from the $i$th scatter for example, it would undergoes a stochastically variation process, because the $i$th scatter stochastically changes to another as the MS moves forwards. %is linearly correlated with the spatial point process, due to the uniform movement.
+%Since the MS is moving at a constant speed, the number of variation of the $i$th scatter during time interval ${\rm{\Delta }}{t_l}$ is also Poisson distributed. The parameter of this Poisson distribution is   ${\lambda_0}\,{\rm{\Delta }}{t_l}$, and it is proportional to the number of the scattering points in the spatial interval $v\,{\rm{\Delta }}{t_l}$. Hence, the process of scattering variation is also a Poisson process.
+%And its rate is $\lambda_0$, which is proportional to $\lambda_s v$.
+
+%By now, the spatial point process is mapped into a stationary process over time. The rate parameter $\lambda_0$ of the scattering variation process can be expressed as
+
+Hence, we propose a new channel model with the variation  of reflecting scatterers taken into account.
+In this model, we assume that each path  gain $A_l(t)$ varies independently according to the same Poisson process.
+The time interval ${\rm{\Delta }}{t_l}$ between two consecutive changes of $A_l(t)$ is exponentially distributed with parameter $\lambda_0$. Within ${\rm{\Delta }}{t_l}$, the {path gain } $A_l(t)$ remains stationary, while after ${\rm{\Delta }}{t_l}$, the waveform of $A_l(t)$ is orthogonal to the previous waveform.
+The { path gain process} is defined as follows,
+\begin{equation}\label{fdpa}
+\renewcommand{\arraystretch}{1.5}
+\left\{
+\begin{array}{lc}
+{A_l}\left( {t_0 + \tau } \right) ={A_l}\left( t_0 \right), & 0\le \tau  < {\rm{\Delta }}{t_l}, \\
+ {A_l}\left( {t_0 + \tau } \right) \perp {A_l}\left( t_0 \right), & \tau  \ge {\rm{\Delta }}{t_l},
+\end{array} \right. %\quad {\rm{\Delta }}{t_l} \sim {\rm{Exp}}\left( {{\lambda _0}} \right),
+\end{equation}
+here ``$\perp$'' denotes ${1}/{T_s}\!\!\int_{{T_s}} \!\!{{A_l}\!\left( {{t_0}} \right)\!{A_l}^*\!\left( {{t_0} + \tau } \right)d{t_0} }\!=\!0$, $T_s$ is the cyclic length of the received signal, and ${\rm{\Delta }}{t_l} \!\!\sim\!\! {\rm{Exp}}\left( {{\lambda _0}} \right)$.
+
+Henceforth, we use the symbol ``$\mathbb{E}$'' to denote the {average} operation as ${1}/{T_s}\!\!\int_{{T_s}}\!\!\left(\cdot\right)\!d{t} $.
+According to the model, we can obtain the characteristics of the autocorrelation of the {path gain process},
+\renewcommand{\arraystretch}{1}
+\begin{equation}\label{1pgpauto}
+{\setlength{\arraycolsep}{4pt} \renewcommand{\arraystretch}{1.5}
+\mathbb{E}\left[ {{A_l}\left( t_0 \right)\!{A_l}^*\!\left( {t_0 + \tau } \right)} \right]\!\! =\!\!\left\{\!\!
+\begin{array}{cc}
+{\mathbb{E}\left[ {{A_l}\left( t_0 \right){A_l}^*\left( {t_0  } \right)} \right]}, & 0\!\le\!\forall  \tau \! < \!{\rm{\Delta }}{t_l},\\
+0 ,& \forall \tau \! \ge\! {\rm{\Delta }}{t_l}.
+\end{array} \!\right.
+}\end{equation}
+Based on this modeling, we could analysis how the variation of local scattering affects the channel characteristics.
+
+\section{Analysis of Spatial-temporal Correlation Function }
+Based on the statistical property of $\left\{ A_l{\left(t\right)} \right\}$ and $\left\{\theta_l\right\}$, the spatial-temporal correlation of the complex low-pass envelope between two array elements can be written as \cite[p.46]{stuber},
+{\setlength\arraycolsep{1pt}
+\begin{equation}\label{corr1}
+\begin{aligned}
+&{\phi _{gg}}\left( {\tau} \right)=\mathbb{E}\left[ {\frac{1}{2}{{\mathbf{E}}_\Theta }\left[ {{g_1}\left( t \right)g_2^*\left( {t + \tau } \right)} \right]} \right]  \\
+=&\frac{1}{2}\mathbb{E}\!\!\left[  \sum \limits_{l=1}^L\! {A_l\left( t \right)\!{A_l}^*\!\left( {t \!+\! \tau } \right)\mathbf{E}\!{\left[e^{j {{{\vec k}_{2l}}(t + \tau ){{\vec r}_{2l}}(t + \tau ) - j{{\vec k}_{1l}}(t){{\vec r}_{1l}}(t)} }\right]}}  \right]    \\
+\mathop  \approx \limits^{(a)}  & {\frac{1}{2}}\mathbb{E}\left[ {\sum\limits_{l = 1}^L {{A_l}\left( t \right){A_l}^*\left( {t + \tau } \right){\mathbf{E}_{\Theta}\!\!\left[e^{j {{{\vec k}_{1l}}(t)\cdot\left[ {{{\vec r}_{2l}}(t + \tau ) - {{\vec r}_{1l}}(t)} \right]} }\right]}} } \right] \\
+= & {\frac{1}{2}}\sum\limits_{l = 1}^L\!
+{\mathbb{E}\!\left[ {{A_l}\left( t \right)\!{A_l}^*\!\left( {t \!+\! \tau } \right)} \right]{\mathbf{E}_{\Theta}\!\!\left[e^{j{2\pi {f_m}\!\tau\! \cos \left( {\beta  - {\theta}} \right) - j\frac{{2\pi }}{\lambda }d\cos \left( {{\theta}} \right)} }\right]}},
+\end{aligned}
+\end{equation}
+where$f_m=v/{\lambda}$ is the maximum Doppler frequency, and $(a)$ is because the wave vectors are approximately parallel within the interval.
+
+Utilizing the scattering variation process model in the previous section, and
+incorporating the autocorrelation property of \eqref{1pgpauto} into \eqref{corr1},
+and then evaluate the expectation of cross-correlation with respect to the i.i.d Poisson process event intervals $\left\{ {{{\Delta }}{t_l}} \right\}_{l = 1}^L$ ,
+\setlength{\arraycolsep}{1.5pt}
+\begin{eqnarray}\label{3corr3}
+&&{\phi _{gg}}\left( {\tau} \right)= {\mathbf{E}}_{\Delta{t}_i}\!\!\left[ {{\phi _{gg}}\left( {\tau ,\left\{ {{{\Delta }}{t_l}} \right\}{}} \right)} \right]  \nonumber \\
+%&=&{\mathbf{E}}_{\Delta{t}_i}\!\!\left[ {{\phi _{gg}}\left( {\tau ,\left\{ {{{\Delta }}{t_l}} \right\}_{i = 1}^K} \right)} \right] \nonumber\\ _{i = 1}^K
+&=&
+%{\frac{1}{2}}\sum\limits_{i = 1}^K {\mathbb{E}\left[ {{{\left| {{A_l}\left( t \right)} \right|}^2}} \right]} P\left\{\tau <\Delta {t_l}\right\} \nonumber \\
+{\frac{1}{2}}\!\sum\limits_{l = 1}^L\! {\mathbb{E}\!\left[\! {{{\left| {{A_l}\!\left( t \right)} \right|}^2}} \!\right]}\! P\!\left\{\!\tau \!\!<\!\!\Delta {t_l}\!\right\}{\mathbf{E}_{\Theta}\!\!\left[\!e^{j{2\pi {f_m}\!\tau\! \cos \left( {\beta  - {\theta}} \right) - j\frac{{2\pi }}{\lambda }d\cos \left( {{\theta}} \right)} }\!\right]} \nonumber \\
+% &&\quad\times {\mathbf{E}_{\Theta}\!\!\left[e^{j{2\pi {f_m}\!\tau\! \cos \left( {\beta  - {\theta}} \right) - j\frac{{2\pi }}{\lambda }d\cos \left( {{\theta}} \right)} }\right]} \nonumber \\
+&=& {\frac{1}{2}}\!\sum\limits_{l = 1}^L {\mathbb{E}\!\left[ {{{\left| {{A_l}\left( t \right)} \right|}^2}} \right]}  e^{-\lambda_0\tau}
+  {\mathbf{E}_{\Theta}\!\!\left[e^{j{2\pi {f_m}\!\tau\! \cos \left( {\beta  - {\theta}} \right) - j\frac{{2\pi }}{\lambda }d\cos \left( {{\theta}} \right)} }\right]}. \nonumber \\
+%\end{array}}
+\end{eqnarray}
+We assume the total envelope power at each antenna is ${\Omega _p}$, thus $\mathop \sum \limits_{l = 1}^L \mathbb{E}\!\left[ {{{\left| {{A_l}\left( t \right)} \right|}^2}} \right] \!\!=\! {\Omega _p}$.
+According to the AOA model, we have
+\begin{equation}\label{3corr4}
+{\phi _{gg}}\!\left( {\tau} \right)={\frac{\Omega_p}{2}}e^{-\lambda_0\tau}\!\!\!\int\limits_{-\pi}^{\pi}\!\! {e^{j {2\pi \!{f_m}\!\tau \cos \left( {\beta  - {\theta }} \right) -j \frac{{2\pi }}{\lambda }d\cos \left( {{\theta }} \right) }}} p_{\Theta }\left(\theta\right) d\theta.
+\end{equation}
+Bring in \eqref{1aoa}, the integral can be carried out as in \cite{abdi}. For brevity, we use $I(\cdot)$ to denote the integral, shown in \eqref{3int} on the top of the next page.
+\setcounter{equation}{10}
+Thus, we obtain the spatial-temporal cross-correlation of our model,
+\begin{equation}\label{3corr5}
+{\phi _{gg}}\left( {\tau} \right)
+={\frac{\Omega_p}{2}}e^{-\lambda_0\tau}I\left( {\kappa ,\theta_0 ,\beta ,v,\tau,d }\right), \quad \tau>0,
+\end{equation}
+%Actually, it is easy to prove the cross-correlation is Hermitian symmetric about $\tau$.
+%{\color{red} The detailed  procedures are is omitted here in the interest of space, please refer to our technique report \cite{tr}.}
+Where, $\theta_0$ is the mean direction of AOA of scatter components as defined in Section II. Actually, it can be extended to negative time using the symmetry of  scattering variation process.
+Substituting in \eqref{lambda0}, the cross-correlation can be extended as
+\begin{equation}\label{3corr6}
+{\phi _{gg}}\left( {\tau} \right)
+={\frac{\Omega_p}{2}}e^{-c_0 v \left|\tau\right|}I\left( {\kappa ,\theta_0 ,\beta ,v,\tau,d }\right).
+\end{equation}
+According to the the spatial-temporal correlation function in \eqref{3corr6}, we can obtain the corresponding  spatial cross-correlation function (CCF) and temporal autocorrelation function (ACF),
+\begin{equation}\label{ccf}
+\phi_{CCF}={\phi _{gg}}\left( {\tau} \right)|_{\tau=0},
+\end{equation}
+\begin{equation}\label{acf}
+\phi_{ACF}={\phi _{gg}}\left( {\tau} \right)|_{d=0}.
+\end{equation}
+
+In comparison with \cite{abdi},  the spatial-temporal correlation function in our varying scattering model has an additional exponentially decaying factor. The exponentially decaying factor is caused by the dynamically changing scattering environment, and it is determined by  the spatial density of ambient scatterers and the vehicle velocity.
+
+\begin{figure*}[Ht]
+\vskip -3em
+% ensure that we have normalsize text
+\normalsize
+% Store the current equation number.
+%\setcounter{MYtempeqncnt}{\value{equation}}
+% Set the equation number to one less than the one
+% desired for the first equation here.
+% The value here will have to changed if equations
+% are added or removed prior to the place these
+% equations are referenced in the main text.
+\setcounter{equation}{9}
+% IEEE uses as a separator
+%\hrulefill
+\begin{eqnarray}\label{3int}
+%Ð´ÔÚÕâÀï
+&&I\left( {\kappa,\theta_0,\beta,v,\tau,d } \right)
+\triangleq \int_{-\pi}^{\pi}\!\! {e^{j {2\pi \!{f_m}\!\tau \cos \left( {\beta  - {\theta }} \right) -j \frac{{2\pi }}{\lambda }d\cos \left( {{\theta }} \right) }}} P_{\Theta }\left(\theta\right) d\theta \nonumber \\
+&&=\left. {I_0{\left( {\sqrt {{\kappa ^2} - {{\left( {2\pi {f_m}\tau } \right)}^2} - {{\left( {2\pi d/\lambda } \right)}^2} +
+\left.8{\pi ^2}v\tau d\cos \left( \beta  \right)\middle/\lambda^2 \right.
++ j2\kappa \left[ {2\pi {f_m}\tau \cos \left( {\beta  - \theta_0 } \right) - 2\pi d\cos \left( \theta_0  \right)/\lambda } \right]} } \right)}}\middle / {{I_0}\left( \kappa  \right)} \right.
+\end{eqnarray}
+\hrulefill
+% Restore the current equation number.
+% The spacer can be tweaked to stop underfull vboxes.
+\vspace*{4pt}
+\end{figure*}
+\setcounter{equation}{14}
+
+%\section{A More Realistic Model}
+%In the aforementioned model, the signal each scatterer reflects only contains one component and the variation of scattering is constructed as a two-segment piecewise function. Actually, according to practical measurements, it is observed that multi-path components arrive in clusters \cite{saleh}. Thus, each scattering path impinging MS antennas can be further modeled as a sum of multiple independent random components. The number of the components from each scatterer is usually a random variable. Without loss of generality, we assume that each cluster has $L$ components. Thus, ${A_l}\!\left( t \right) \!= \!\mathop \sum \limits_{j = 1}^L {a_{ij}}(t)$,
+%where $\left\{a_{ij}(t)\right\}$ are i.i.d processes for $j\!\!=\!\!1,\cdots,L $.
+%
+%The changing process of each component is again a Poisson process , and only one component is allowed to change at a time. Thereby, we  model a new  {path gain process} that fluctuates more smoothly to match the real-world measurements,
+%\renewcommand{\arraystretch}{1.5}
+%\setlength{\arraycolsep}{2pt}
+%\begin{equation}\label{4fdpa}
+%\left\{\!\!\!
+%\begin{array}{lc}
+%& {a_{i\!j}}(\!t_0\!+\!\tau\!)\!\perp\!{a_{i\!j}}(\!t_0\!),\: \forall{j}\!\!\le\!\!{m},\\
+%& {a_{i\!j}}(\!t_0\!+\!\tau\!)\!=\!{a_{i\!j}}(\!t_0\!), \: \forall{j}\!\!>\!\!{m},
+%\end{array} \right.
+%\:\text{when} \:{\mathop \sum \limits_{j = 0}^m\!\! \Delta {t_l^j} \!\!\le\!\! \tau \! \! <\!\!\mathop \sum \limits_{j = 0}^{m + 1} \!\!\Delta {t_l^j}},
+%\end{equation}
+%%where $t_0\!<\!T_s$, and $\tau=kT_S$, $k$ is an integer. $\Delta {t_j}, j\!\!=\!\!0,1,\cdots,L$ are independent exponentially distributed with identical parameter $\lambda_L$. Thus, we get,
+%where $\left\{m,j\right\}\!\!\in\!\!\left\{0,1,\cdots,L\right\}$, $\Delta {t_l^0}\!\!\triangleq\!\!0$.
+%The time interval $\left\{\Delta {t_l^j}, j\!\!\ge\!\!1\right\}$ between the $\left(j\!\!-\!\!1\right)$th and $j$th variation events are independent and exponentially distributed with identical parameter $\lambda_L$. Accordingly, we obtain the property of the {path gain process},
+%\renewcommand{\arraystretch}{1}
+%\setlength{\arraycolsep}{6pt}
+%\begin{equation}\label{4scproc}
+%\begin{aligned}
+%& \mathbb{E}\left[ {{A_l}\left( t \right){A_l}^*\left( {t + \tau } \right)} \right] \\
+%=&\left\{\!\!\!
+%\begin{array}{cc}
+%\phantom{\frac{L-1}{L}}{\mathbb{E}\left[ {{A_l}\left( t \right){A_l}^*\left( {t  } \right)} \right]}\:, & {0 \!\le\!\tau \! <\! {t_l^1}} , \\
+%%\frac{L-1}{L} {\mathbb{E}\left[ {{A_l}\left( t \right){A_l}^*\left( {t  } \right)} \right]} & {{t_l^1} \!\le\!\tau \! <\! {t_l^2}} \\
+%\vdots & \vdots \\
+%\frac{L-m}{L} {\mathbb{E}\left[ {{A_l}\left( t \right){A_l}^*\left( {t  } \right)} \right]}\:, & {{t_l^m} \!\le\!\tau \! <\! {t_l^{m+1}}}, \\
+%\vdots & \vdots \\
+%0\:, & {\tau \! \ge\! {t_l^L}} ,\\
+%\end{array} \right.
+%\end{aligned}
+%\end{equation}
+%where we let $t_l^m\!\triangleq\!\sum_{j=1}^m \Delta {t_l^j}$ to be the sum of $m$ i.i.d exponential variables, which is Erlang distributed with the following CDF as
+%\begin{equation}\label{4erlang}
+%P\left( {t_l^m \le x} \right) = 1 - \mathop \sum \limits_{n = 0}^{m - 1} \frac{1}{{n!}}{e^{ - {\lambda _L}x}}{\left( {{\lambda _L}x} \right)^n}.
+%\end{equation}
+%
+%Following the parameters, configurations and assumptions of previous model, we  obtain the spatial-temporal cross-correlation of the more realistic model,
+%\setlength{\arraycolsep}{1.5pt}
+%\begin{eqnarray}\label{4corr1}
+%&&{\phi _{gg}}\left( {\tau} \right)=\mathbf{E}_{\Delta{t}}\left[ {{\phi _{gg}}\left( {\tau ,\left\{ {{{\Delta }}{t_l^j}} \right\}} \right)} \right]  \nonumber \\
+%%&=&\mathbf{E}_{\Delta{t}}\left[ {{\phi _{gg}}\left( {\tau ,\left\{ {{{\Delta }}{t_l^j}} \right\}} \right)} \right] \nonumber\\
+%&=&
+%{\frac{\Omega_p}{2}} I\left( {\kappa ,\theta_0 ,\beta  ,v,\tau,d }\right)
+%\mathop \sum \limits_{m = 0}^{L - 1} \left\{ {P\left( {{t_l^m} \le \tau  < {t_l^{m + 1}}} \right)\frac{{L - m}}{L}} \right\}   \nonumber \\
+%&=&
+%{\frac{\Omega_p}{2}}{I}\!\left( {\kappa ,\theta_0 ,\beta ,v,\tau,d } \right)\!\mathop \sum \limits_{m = 0}^{L - 1}\! \left\{\! {\frac{1}{{m!}}{e^{ - {\lambda _L}\tau }}{{\left( {{\lambda _L}\tau } \right)}^m}\frac{{L \!-\! m}}{L}} \!\right\} \!.
+%\end{eqnarray}
+%
+%%\vskip -2.0 em
+%In both the basic and the more realistic models, one component of the scattering signal is replaced by an entirely uncorrelated one after certain movement. Within the interval, $L$ variations happen in the improved model, while only one occurrs in the simple model. And, as $L$ increases, components vary more frequently, which implies that the intensity of the scattering variation Poisson process is proportional to $L$. So, we can get
+%%\vskip -2.0 em
+%\setlength{\arraycolsep}{6pt}
+%\begin{equation}\label{4poisson}
+%\lambda_L=L\lambda_0,\qquad L=1,2,3,\cdots,
+%\end{equation}
+%where $\lambda_0$ was defined in Section II.
+%
+%Actually, the basic model is a degraded case of the more realistic one, which consists of only one component, namely, $L\!=\!1$. While expression of \eqref{4corr1} is intractable for general $L$, we resort to analyzing another extreme case in which $L$ tends to infinity.
+%\setlength{\arraycolsep}{1.5pt}
+%\begin{eqnarray}\label{4corr2}
+%&&\mathop {\lim }\limits_{L \to \infty }\left\{\mathop \sum \limits_{m = 0}^{L - 1}  {\frac{1}{{m!}}{e^{ - {\lambda _L}\tau }}{{\left( {{\lambda _L}\tau } \right)}^m}\frac{{L - m}}{L}} \right\} \nonumber \\
+%&=&
+%{e^{ - {\lambda _L}\tau }}\mathop {{\rm{lim}}}\limits_{L \to \infty } \left\{ {\mathop \sum \limits_{m = 0}^{L - 1} \frac{{{{\left( {{\lambda _L}\tau } \right)}^m}}}{{m!}} - \frac{{{\lambda _L}\tau }}{L}\mathop \sum \limits_{m = 1}^{L - 1} \frac{{{{\left( {{\lambda _L}\tau } \right)}^{\left( {m - 1} \right)}}}}{{\left( {m - 1} \right)!}}} \right\}
+%  \nonumber \\
+%&=&
+%{e^{ - {\lambda _L}\tau }}{\left\lceil {{e^{{\lambda _L}\tau }} - {\lambda _0}\tau {e^{{\lambda _L}\tau }}} \right\rceil ^ + } \nonumber \\
+%&=&
+%{\left\lceil {1-\lambda_0\tau} \right\rceil ^ + },
+%\end{eqnarray}
+%where the operation %$\left\lceil x \right\rceil= \left\{\begin{array}{lc}{x&x\ge 0}{0 & x<0} \end{array}\right.$
+%$\left\lceil x \right\rceil^+= \left\{
+%\begin{array}{lc}
+%x & x \ge 0\\
+%0 & x<0
+%\end{array} \right.\!\!.$ So, as $L$ tends to infinity, and due to the symmetry of scattering variation process, the cross-correlation is
+%\begin{equation}\label{4corr3}
+%\mathop {\lim }\limits_{L \to \infty } {\phi _{gg}}\left( \tau  \right)={\frac{\Omega_p}{2}}\cdot\left\lceil {1-\lambda_0\left|\tau\right|} \right\rceil^+
+%{I}\left( {\kappa ,\theta_0 ,\beta ,v,\tau,d } \right).
+%\end{equation}
+%\textbf{{Remarks}}: The two extreme cases provide us with some interesting insights on how fast the correlation decays in space and time.
+%The signal correlation of $L\!=\!1$ and $L\!\rightarrow\!\infty$ are in fact the tight upper  and lower bounds respectively.
+%In particular, the correlation factor decays exponentially in the former case, or namely the sparse scattering case, and decays linearly in the latter case, or equivalently the rich scattering case. The correlation decaying speed under an arbitrary scattering scenario will fall between the two extreme rates.
+
+\section{Implications Study}
+%The new fast fading channel model for high speed mobile and its mathematically tractable correlation function is useful for accurate channel estimation, system performance evaluation, guidance of the system design and other variety of applications. Here we give derivation of two important channel statistical properties as simple utilization examples of our  model, the channel coherence time and level crossing rate.
+The theoretical analysis of the novel channel correlation model may shed light on the design and performance evaluation of future high mobility communication systems.
+The results obtained are practically important in enhancing channel estimation, frame structure designing, adaptive modulation and coding schemes, etc.
+Here we briefly describe two important channel metrics as application examples.
+\subsection{Envelope Correlation and Channel Coherence Time}
+%The envelope of multipath components and its correlation properties are of interest in many practical applications. The received envelope is denoted as $z(t)\!=\!\left|g(t)\right|$. Assuming no LoS component, the squared-envelope autocovariance of $z(t)$ at each receiving antenna, ${\mu _{{z^2}{z^2}}}\!\left( \tau  \right)\!=\!\mathbb{E}\!\left[ {{z^2}\left( t \right){z^2}\left( {t + \tau } \right)} \right] \!\!-\!\! \mathbb{E}\!\left[ {{z^2}\left( t \right)} \right]\!\mathbb{E}\!\left[ {{z^2}\left( {t + \tau } \right)} \right]$, is given by \cite[p.60]{stuber},
+%\begin{equation}\label{5corr1}
+%%{\mu _{{z^2}{z^2}}}\!\left( \tau  \right)={\mu _{{z^2}{z^2}}}\!\left( 0 \right)\frac{{{{\left| {{\phi _{gg}}\left( \tau  \right)} \right|}^2}}}{{{{\left| {{\phi _{gg}}\left( 0 \right)} \right|}^2}}}
+%{\mu _{{z^2}{z^2}}}\!\left( \tau  \right)=4{{{\left| {{\phi _{gg}}\left( \tau  \right)} \right|}^2}}.
+%\end{equation}
+The envelope correlation is of interest in many practical applications.
+The received envelope is denoted as $z(t)\!\!=\!\!\left|g(t)\right|$.
+Assuming no LoS component, the envelope cross-covariance of $z(t)$  is
+${\mu _{{z}{z}}}\!\left( \tau  \right)\!=\!\mathbf{E}\!\left[ {{z_1}\left( t \right){z_2}\left( {t + \tau } \right)} \right] \!-\! \mathbf{E}\!\left[ {{z_1}\left( t \right)} \right]\!\mathbf{E}\!\left[ {{z_2}\left( {t + \tau } \right)} \right]
+=\frac{\pi}{8{\left| {{\phi _{gg}}\left( 0  \right)} \right|}}{{{\left| {{\phi _{gg}}\left( \tau  \right)} \right|}^2}}$,
+is given by \cite{stuber}.
+%is given by \cite[p.60]{stuber}.
+Thus, the normalized envelope covariance is
+\begin{equation}\label{5corr1}
+{\tilde\mu _{{z}{z}}}\left( \tau  \right)\triangleq\frac{{\mu _{{z}{z}}}\left( \tau  \right)}{{\mu _{{z}{z}}}\left( 0 \right)}
+=\frac{{{\left| {{\phi _{gg}}\left( \tau  \right)} \right|}^2}}{{{\left| {{\phi _{gg}}\left( 0  \right)} \right|}^2}}.
+\end{equation}
+
+Based on temporal ACF obtained from the correlation analysis in Section IV, we can obtain the temporal envelope correlation function.
+Consequently, we can estimate the channel's coherence time, $T_c$,  at which the transmitted signal duration distortion becomes noticeable. Commonly, the coherence time is taken to correspond to an envelope correlation coefficient of 0.5. That is
+\begin{equation}\label{coht}
+{\tilde\mu _{{z}{z}}}\!\left( T_c  \right)={\left| e^{-c_0 v \left|\tau\right|}
+%{I_0{\left( {\sqrt {{\kappa ^2} - {{\left( {2\pi {f_m}\tau } \right)}^2} + {j4\pi\kappa {f_m}\tau \cos \left( {\beta  - \alpha } \right) }} } \right)}}=0.5.
+I\left( {\kappa,\theta_0,\beta,v,T_c,d=0 }\right)\right|^2}=0.5.
+\end{equation}
+Whereas it is intractable to derive a closed-form expression for the coherence time, we give some simulation results and achieve insights in Section VI.
+%The coherence time may be defined as the time over which the normalized envelope autocovariance function ${\tilde\mu _{{z}{z}}}\!\left( \tau  \right)$ is less than $0.5$, while the
+%We use the first simple model to simulate, and the influence of scattering variation process can be seen in the Fig..
+%The simulation is based on the basic model's correlation \eqref{3corr6}.
+%Parameter $c_0$ is proportional to the density of local scatterer as remarked in Section II, and as the Fig.\ref{coherence} shows, the coherence time decreases with density increasing. Meanwhile, the bigger the angle spreads of scattering, i.e. bigger $\kappa$, the more obvious the impact of variation of scattering on coherence time. The isotropic scattering, the classic Clarke¡¯s model, is barely affected.
+%\begin{figure}[ht]
+%\centering
+%\includegraphics[width=0.45\textwidth]{coh.eps}
+%\caption{Normalized squared-envelope autocovariance. Simulation parameters: $v\!=\!100m/s$, $fc\!=\!900MHz$, $\alpha\!=\!\beta$, (a) $c_0\!=\!0.1\, m^{-1}$, (b) $c_0\!=\!1\, m^{-1}$.} \label{coherence}
+%\end{figure}
+%(figure and the illustration to be completed).
+\subsection{Level-crossing Rate and Average Fade Duration }
+The level-crossing rate (LCR) and average fade duration (AFD) of instantaneous signal-to-noise ratio (SNR) are useful measures to describe how often the received signal's SNR crosses a given threshold per time unit, and for how long on average the signal is below a certain level, separately.
+%are two crucial second order statistic associated with envelope fading. The LCR of instantaneous signal-to-noise ratio (SNR) is related to the system characteristics such as handoff, outage probability, code design, and the effect of diversity on fading, etc.
+LCR and AFD are two crucial second order statistics associated with envelope fading, which are closely related  to  the system characteristics and design, such as the error bursts statistics \cite{burst}, FSMC channel modeling\cite{fsmc}, as well as for the throughput analysis\cite{thro}, etc.
+In what follows, we calculate the instantaneous SNR LCR of our new channel model by means of the characteristic function (CF)-based approach \cite{cf}.
+
+We consider the signal received of single-antenna system, the instantaneous SNR per symbol is given by $\gamma(t)\!=\!\left[z(t)\right]^2/{N_0B}$, ${N_0B}$ is one-sided Gaussian noise power, and we can normalize ${N_0B}\!=\!1$ with loss of generality.
+The SNR LCR $N_\Gamma\!\left(\!\gamma_{th}\!\right)$ is defined as the expected number of crossings per unit time that the instantaneous SNR $\gamma\!\left(t\right)$ crosses a given threshold $\gamma_{th}$ in the negative (or positive) going direction.
+According to \cite{cf}, the LCR of $\gamma\!\left(t\right)$ corresponding to the threshold $\gamma_{th}$ can be obtained by
+\begin{equation}\label{lcreq}
+N_\Gamma\!\left(\!\gamma_{th}\!\right)\!=\!\frac{{ - 1}}{{{\rm{4}}{\pi ^2}}}\!\!\int_{ \!- \infty }^\infty \!\!  {\int_{ \!-\infty }^\infty\!\!  {\frac{1}{{{\omega _2}}}\frac{{d{\Phi _{\gamma \gamma '}}\!\left({\omega _1},{\omega _2}\right)}}{{d{\omega _2}}}} {e^{ - j{\omega _1}\!{\gamma _{th}}}}\!d{\omega _1}d{\omega _2}}.
+\end{equation}
+Where $\gamma'\left(t\right)$ is the time derivative of $\gamma\left(t\right)$, and ${\Phi _{\gamma \gamma '}}\!\left({\omega _1},{\omega _2}\right)$ is the joint CF of $\gamma$ and $\gamma'$ , defined as $\mathbf{E}{\left[\exp\left(j\omega_1\gamma+j\omega_2{\gamma'}\right)\right]}$. Considering non-LoS case, the joint CF is given by \cite{cf} in closed-form
+\begin{equation}\label{cfeq}
+{\Phi _{\gamma \gamma '}}\!\left({\omega _1},{\omega _2}\right)={\left[ {1 + 4({b_0}{b_2} - b_1^2)\cdot\omega _2^2 - j2{b_0}{\omega _1}} \right]^{ - 1}}.
+\end{equation}
+where $b_n$,  $n\!=\!0, 1, 2$, is the $n$th spectral moment of the received signal's low-pass complex envelope, $g(t)$.
+Bring \eqref{cfeq} in to \eqref{lcreq}, we get
+\begin{equation}\label{lcreq2}
+N_\Gamma\!\left(\!\gamma_{th}\!\right)\!=\! \frac{{  2}}{{{\pi ^2}}}\int_{ - \infty }^\infty \!\! {\int_{ - \infty }^\infty \!\! {\frac{{ ({b_0}{b_2} - b_1^2)}{e^{ - j{\omega _1}{\gamma _{th}}}}}{{{{\left[ {1\! +\! 4({b_0}{b_2}\! -\! b_1^2)\omega _2^2\! -\! j2{b_0}{\omega _1}} \right]}^2}}}}d{\omega _1}d{\omega _2}}.
+\end{equation}
+The spectral moment $b_n$ can be expressed in terms of temporal ACF ${\phi _{ACF}}\!\left( \tau \right)$ and the associated power spectrum by the Fourier transform $S\left(f\right)=\mathfrak{F}\!\left[{{\phi _{ACF}}\!\left( \tau \right)}\right]$
+\begin{equation}\label{moment}
+b_n=\left(2\pi\right)^2\int_{-\infty}^{\infty}f^nS_{gg}\left(f\right)d f.
+\end{equation}
+By mathematical manipulation of the correlation function obtained in Section IV, the spectral moments can be given as follows
+%we can calculate the LCR of SNR with the $n$th spectral moment of $g(t)$, $n\!=\!0, 1, 2$, denoted as $b_n$. $b_n$ can be expressed in terms of correlation function ${\phi _{gg}}\!\left( \tau \right)$, ${{\rm{b}}_n} = {\left. {{j^{ - n}}{d^n}{\phi _{gg}}(\tau )/d{\tau ^n}} \right|_{\tau  = 0}}.$  Considering non-LoS case and the signal autocorrelation at each antenna ($d=\!0\!$ ),  the spectral moments is given as follows,
+\begin{equation}\label{5moment}
+\begin{array}{l}
+{b_0} = \frac{{{\Omega _p}}}{2},\qquad{b_1} = {b_0}\frac{{{I_1}\left( \kappa  \right)\cdot2\pi \cos \left( {\beta  - \theta_0 } \right){f_m}}}{{{I_0}\left( \kappa  \right)}}, \\
+{b_2} = {b_0}\frac{{\kappa \left[ {{I_0}\left( \kappa  \right) + {I_2}\left( \kappa  \right)} \right]{{\cos }^2}\left( {\beta  - \theta_0 } \right) + 2{I_1}\left( \kappa  \right){{\sin }^2}\left( {\beta  - \theta_0 } \right)}}{{2\kappa {I_0}\left( \kappa  \right)}{\left( {2\pi {f_m}} \right)^{-2}}} + {b_0}{\lambda _0}^2. \\
+\end{array}
+\end{equation}
+
+The AFD $T_\Gamma(\!\gamma_{th}\!)$ is the expected value for the length of the time intervals in which the channel fading process is below the threshold $\gamma_{th}$.  Hence, $T_\Gamma(\!\gamma_{th}\!)\!=\!\int_{-\!\infty}^{\gamma_{th}}p_\Gamma(\gamma)d \gamma/{N_\Gamma\!\left(\!\gamma_{th}\!\right)}$, where $p_\Gamma(\gamma)$ is the pdf of signal instantaneous SNR. Considering non-LoS cases, $\gamma(t)$ could be modeled as an exponentially distributed process  corresponding to Rayleigh fading channel.
+
+
+%\vspace{-2pt}
+\section{Computational Results}
+%\parskip 0pt plus 2pt minus 1pt
+The mathematical tractability of the correlation function derived above make it possible to visualize the characteristics of the fading channel.
+Here we give computational simulations on the envelope of multi-path components based on the model and analysis  in Section III and IV, and obtain several properties of high mobility communication channels.
+%\showthe\parskip
+%The envelope correlation is of interest in many practical applications.
+%The received envelope is denoted as $z(t)\!\!=\!\!\left|g(t)\right|$.
+%Assuming no LoS component, the envelope cross-covariance of $z(t)$ at each receiving antenna is
+%${\mu _{{z}{z}}}\!\left( \tau  \right)\!=\!\mathbf{E}\!\left[ {{z_1}\left( t \right){z_2}\left( {t + \tau } \right)} \right] \!-\! \mathbf{E}\!\left[ {{z_1}\left( t \right)} \right]\!\mathbf{E}\!\left[ {{z_2}\left( {t + \tau } \right)} \right]
+%=\frac{\pi}{8{\left| {{\phi _{gg}}\left( 0  \right)} \right|}}{{{\left| {{\phi _{gg}}\left( \tau  \right)} \right|}^2}}$,
+%is given by \cite[p.60]{stuber}.
+%Thus, the normalized envelope covariance is
+%\begin{equation}\label{5corr1}
+%{\tilde\mu _{{z}{z}}}\left( \tau  \right)\triangleq\frac{{\mu _{{z}{z}}}\left( \tau  \right)}{{\mu _{{z}{z}}}\left( 0 \right)}
+%={{{\left| {{\phi _{gg}}\left( \tau  \right)} \right|}^2}}.
+%\end{equation}
+\begin{figure}[ht]
+%\vskip -1em
+\centering
+\includegraphics[width=0.4\textwidth]{3dspacetime3.eps}
+%\vskip -1em
+\caption{Spatial-temporal envelope cross-covariance with $fc\!=\!700MHz$, $v\!=\!360\,$km/h,  $c_0\!=\!0.2\, \text{m}^{-1}$,   $\theta_0\!=\!0$, $\beta\!=\!0$. } \label{3dspacetime}
+\end{figure}
+%Although both the models exhibit the delay correlation phenomenon, While in the time-invariant model the correlation always increases to the maximum of 1 at
+\begin{figure}[ht]
+%\vskip -1em
+\centering
+\includegraphics[width=0.45\textwidth]{corrvsdelay8.eps}
+%\vskip -1em
+\caption{Normalized envelope autocovariance with $v\!=\!360\,$km/h, $fc\!=\!700MHz$, (a) $d=1 \, \text{m}$, (a) $d=2 \, \text{m}$.} \label{delaycorr}
+\end{figure}
+%As the results, the covariance decrease as the spatial or temporal interval increase.
+
+The simulations are carried out with parameters selected according to LTE protocols, $fc\!=\!700MHz$, the frame length is $10\,$ms containing 20 slots, thus the single slot duration is $0.5\,$ms.
+Firstly, the three dimensional spatial-temporal-covariance mesh is plotted in Fig.\ref{3dspacetime}.
+It reveals the phenomenon that, at a certain antenna spacing, the cross-correlation first increases to reach a peak and then declines as time interval grows.
+And the corresponding peak correlation is smaller with larger antenna spacing, thus we see the ``ridge'' on figure of the spatial-temporal correlation.
+We call this phenomenon \emph{delay correlation} between array elements, which could be exploited to enhance the performance of multi-antenna communication systems\cite{ours}.  % which would be looked into more closely in Fig.\ref{3dspacetime}.
+%In Fig.\ref{3dspacetime},
+%we set the antenna spacing as  $d\!=\!1 \text{m}, 2 \text{m}$
+Next, in Fig.\ref{3dspacetime}, we look more closely into the delay correlation feature with different  mean AOA $\theta_0$ and moving direction $\beta$,  and compare our proposed model with the time-invariant scattering channel model in \cite{abdi}.
+It is shown that when the MS is moving in line with the linear antenna array (i.e., $\beta\!=\!0$), the delay correlation  is the most significant and reaches the peak as the MS moves one-antenna-spacing distance, (actually the peak may appear a bit ahead of that in our model due to the decaying factor caused by varying scattering). Moveover, when $\beta\!=\!0$ , the correlation of time-invariant model in \cite{abdi} always reaches the maximum value of one regardless of antenna spacing, while the peak correlation in our model decays more with larger antenna spacing or scatterer density, which agrees with reality.
+\begin{figure}[ht]
+%\vskip -3em
+\centering
+\includegraphics[width=0.47\textwidth]{corrvstau3.eps}
+%\vskip -1em
+%\caption{Normalized envelope autocovariance with $v\!=\!360\,$km/h,  $c_0\!=\!0.1\, \text{m}^{-1}$,  $fc\!=\!700MHz$, $\alpha\!=\!0$, $\beta\!=\!0$. } \label{corrvstau}
+\caption{Normalized envelope autocovariance with $v\!=\!360\,$km/h, $fc\!=\!700MHz$, $\theta_0\!=\!0$, $\beta\!=\!0$. } \label{corrvstau}
+\end{figure}
+\begin{figure}[ht]
+%\vskip -2em
+\centering
+\includegraphics[width=0.47\textwidth]{corrvsspeed4.eps}
+%\vskip -1em
+\caption{Normalized envelope autocovariance with $\kappa\!=\!8$, $fc\!=\!700MHz$,{{ $\tau\!=\!0.5\,$ms}}, $\theta_0\!=\!0$, $\beta\!=\!0$.} \label{corrvsspeed}
+\end{figure}
+\begin{figure}[ht]
+%\vskip -3em
+\centering
+\includegraphics[width=0.47\textwidth]{lcr3.eps}
+%\vskip -1em
+\caption{Level-crossing rate of instantaneous SNR with $v\!=\!360\,$km/h, $fc\!=\!700MHz$, $\theta_0\!=\!0$, $\beta\!=\!0$. .} \label{lcrfig}
+\end{figure}
+
+Secondly, Fig.\ref{corrvstau} shows the  temporal envelope autocovariance (equivalent to $d\!=\!0$) with different AOAs and scatterer distributions.
+We find that the signal covariance and channel coherence time specified in Section V decreases as the receiving angular spread expands, while the isotropic scattering case (i.e., $\kappa\!=\!0$) fades the most dramatically, which agrees with other research such as \cite{lee}.
+Besides, the covariance and the coherence time declines  in denser scattering scenario, and the impact is more significant for non-isotropic cases.
+
+Next, we set time interval to one-LTE-slot length, and explore how the speed and the scattering density affect the channel temporal correlation.
+As can be seen from Fig.\ref{corrvsspeed}, the simulation result shows that the temporal envelope  autocovariance decreases with either  higher speed or  denser scattering environment.
+It also indicates that, as speed increases, the correlation gaps between denser scattering, sparser scattering scenes  and the time-invariant scattering model in \cite{abdi} become wider. It implies that high mobility not only incurs severe Doppler Effect, but also intensifies the variation of scattering, which both affect the channel temporal correlation.
+%The conventional channel models which assume time-invariant scattering are less accurate in depicting the channel characteristics in high-speed or high density scattering scenarios.
+Lastly, Fig.\ref{lcrfig} shows the impact of varying scattering on the LCR of instantaneous SNR at each antenna, that the denser the scatterers, the faster the LCR would be.
+Accordingly, since the variation of scattering may significantly affect the key parameters of fading channel, it should not be neglected in high-speed systems.
+
+\section{Conclusion}
+In this paper, we model the variation  of local scattering as a Poisson process, and accordingly obtain a modified model for fast fading of multi-path channel.
+Our proposed channel model capture not only severe Doppler Effect but also the variation of scattering in the wireless channels of high mobility communication systems.
+We provide  a closed-form spatial-temporal signal correlation expressions. By computational simulations, we focus on the features of correlation in high mobility scenarios and reveal the impacts of the varying scattering  in comparison with existing models.
+The theoretical analysis of the novel channel correlation model may serve as the design reference and performance evaluation for future high mobility communication systems.
+% in enhancing channel estimation, frame structure and adaptive modulation and coding schemes, etc.
+And we also add practical implications through the evaluation of channel coherence time and instantaneous SNR Level-crosing rate.
+
+
+
+%\section*{Acknowledgment}
+%The authors would like to thank...
+
+\section*{Acknowledgement}
+This work was supported in part by National Key Basic Research Program of China (No. 2012CB316104), National Hi-Tech R\&D Program (No.2014AA01A702), Zhejiang Provincial Natural Science Foundation of China (No.LR12F01002), and National Natural Science Foundation of China(61371094).
+
+
+\begin{thebibliography}{1}
+{%\scriptsize
+    \bibitem{rural}
+    J. Qiu, C. Tao, L. Liu, Z. Tan, ``Broadband channel measurement for the high-speed railway based on WCDMA,'' in \emph{Proc. IEEE VTC¡¯12-Spring}, Yokohama, Japan, May. 2012.
+    \bibitem{tunnel}
+    M. Lienard and P. Degauque, ``Propagation in wide tunnels at 2 GHz: a statistical analysis,''  \emph{IEEE Trans. Veh. Technol.},  vol. 47, pp. 1322--1328, 1998.
+    \bibitem{viaduct}
+    R. He, Z. Zhong, and B. Ai, ``Path loss measurements and analysis for high-speed railway viaduct scene,'' in \emph{Proc. IWCMC¡¯10}, Caen, France, 21, June 2010.
+    \bibitem{viaduct2}
+    L. Liu, C. Tao, J. Qiu, H. Chen, ``Position-based modeling for wireless channel on high-speed railway under a viaduct at 2.35 GHz,'' \emph{IEEE J. Sel. Areas Commun.}, vol. 30, pp. 834--845, 2012.
+    \bibitem{cutting1}
+    J. Lu, G. Zhu, C. Briso-Rodriguez, ``Fading Characteristics in the Railway Terrain Cuttings,'' in \emph{Proc. IEEE VTC¡¯11-Spring}, Yokohama, Japan, May. 2011.
+    \bibitem{cutting2}
+    R. He, Z. Zhong, B. Ai, et al., ``Propagation measurements and analysis of fading behavior for high speed rail cutting scenarios,'' in \emph{Proc. IEEE GLOBECOM'2012}, Anaheim, USA, Dec. 2012.
+    \bibitem{aoa}
+    A. Abdi, J. Barger, and M. Kaveh, ``A parametric model for the distribution of the angle of anival and the associaled correlation function and power spectrum al the mobile station,'' \emph{IEEE Trans. Veh. Technol.}, vol. 51, No.3, pp. 425-434, May. 2002.
+    \bibitem{ltea}
+    3GPP, TS36.101, V10.2.1, ``3rd Generation Partnership Project; Technical Specification Group Radio Access Network; Evolved Universal Terrestrial Radio Access (E-UTRA); User Equipment (UE) radio transmission and reception (Release 10),'' Apr. 2011.
+    \bibitem{winner}
+    P. Ky\"{o}sti, et al., ¡°WINNER II channel models,'' IST-4-027756, WINNER II D1.1.2, v1.2, Apr. 2008.
+    \bibitem{imta}
+    ITU-R M.2135-1, ¡°Guidelines for Evaluation of Radio Interface Technologies for IMT-Advanced,'' Geneva, Switzerland, Rep. ITU-R M.2135-1, Dec. 2009.
+   % \bibitem{nonwss}
+   % N. Kita, T. Ito, S. Yokoyama, ect., ¡°Experimental study of propagation characteristics for wireless communications in high-speed train cars,'' in \emph{Proc. IEEE EuCAP¡¯09}, Berlin, Germany, Mar. 2009, pp. 897¨C901.
+    \bibitem{kno1}
+    S. Knorzer, M. Baldauf, T. Fugen, W. Wiesbeck, ``Channel modelling for an OFDM train communications system including different antenna types,'' in \emph{Proc. IEEE VTC¡¯06-Fall}, Montreal, Canada, Sept. 2006.
+    %\bibitem{ray}
+    %T. Fugen, J. Maurer, T. Kayser, W. Wiesbeck, ``Capability of 3-D Ray Tracing for Defining Parameter Sets for the Specification of Future Mobile Communications Systems,'' \emph{ IEEE Trans. Antennas Propag.}, vol. 54, pp. 3215-3137, Nov. 2006.
+    \bibitem{non}
+    A. Ghazal, C. Wang, H. Haas, M. Beach, ``A non-stationary MIMO channel model for high-speed train communication systems,'' in \emph{Proc. IEEE VTC¡¯12-Spring}, Yokohama, Japan, May. 2012.
+    \bibitem{spatial}
+    B. Ripley,  \emph{Spatial Statistics}. John Wiley\&Sons, 2005.
+    \bibitem{lee}
+    W. Y. Lee, ``Effects on correlation between two mobile radio basestation antennas,'' \emph{IEEE Trans. Commun.}, vol. 21, pp. 1214--1224, 1973.
+    \bibitem{abdi}
+    A. Abdi, M. Kaveh, ``Parametric modeling and estimation of the spatial characteristics of a source with local scattering,'' in \emph{IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP) }, Orlando, FL, USA, May. 2002.
+    \bibitem{von}
+    K. Mardia and P. Jupp, \emph{Directional Statistics}. Chichester, England: Wiley, 2000.
+    \bibitem{stuber}
+    \emph{Principles of Mobile Communication}, 2nd ed., Kluwer Acad. Publ., Boston, MA, 2002.
+    %\bibitem{turin}
+    %G. Turin, F. Clapp, T. Johnston, et al., ``A statistical model of urban multipath propagation,'' \emph{IEEE Trans. Veh. Technol.}, vol.21, No.1, pp. 1-9, Feb. 1972.
+%    \bibitem{saleh}
+%    A. Saleh and R. Valenzuela, ``A statistical model for indoor multi-path propagation,'' \emph{ IEEE J. Sel. Areas Commun.}, vol.5, No.2, pp. 128-137, Feb. 1987.
+    \bibitem{burst}
+    J. Morris and J. Chang, ``Burst error statistics of simulated Viterbi decoded BFSK and high-rate punctured codes on fading and scintillating channels,'' \emph{ IEEE Trans. Commun.}, vol.43, pp. 695-700, Feb. 1995.
+    \bibitem{fsmc}
+    H. S. Wang and N. Moayeri, ``Finite-state Markov channel-a useful model for radio communication channels,'' \emph{ IEEE Trans. Veh. Technol.}, vol.44, pp. 163-171, Feb. 1995.
+    \bibitem{thro}
+    L. Chang, ``Throughput estimation of ARQ protocols for a Rayleigh fading channel using fade- and interfade-duration statistics,'' \emph{ IEEE Trans. Veh. Technol.}, vol. 40, pp. 223-229, Feb. 1991.
+    \bibitem{cf}
+    A. Abdi and M. Kaveh,  ``Level crossing rate in terms of the characteristic function: A new approach for calculating the fading rate in diversity systems,'' \emph{IEEE Trans. Commun.}, vol. 50, pp. 1397-1400, Sep. 2002.
+    \bibitem{ours}
+    C. Jiao, Z. Zhang, H. Zhang, and L. Zhu, ``Exploiting delay correlation for multi-antenna-assisted high speed train communications,'' Tech. Rep., 2014, [online] available: http://arxiv.org/abs/1403.7322.
+    }
+%    \bibitem{cf2}
+%    A. Abdi and W. C. Lau, et al., ``A new simple model for land mobile satellite channels: first- and second-order statistics,'' \emph{IEEE Trans. Wireless Commun.}, vol. 2, No.3, pp. 519 - 528, May. 2003.
+%    \bibitem{tr}
+%    {\color{red} technique report link}
+
+
+
+\end{thebibliography}
+
+
+
+
+
+% that's all folks
+\end{document}
+
+
+
