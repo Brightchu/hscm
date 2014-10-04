@@ -185,12 +185,12 @@ $v$ and $\beta$ are the moving velocity and direction of the MS.
 The carrier frequency is $f_c$, the wavelength is $\lambda$.
 If the BS sends a unit-power unmodulated carrier, via frequency flat channel, the complex envelope low-pass equivalent of the signal at each MS antenna is
 \begin{equation}\label{signal}
-g_\xi\left( t \right) = \mathop \sum \limits_{l = 1}^L {{\rm{\Xi }}_l}\left( t \right){e^{j{{\rm{\Psi }}_l}\left( t \right)}}{e^{ - j{{\vec k}_{\xi l}(t)}\cdot{{\vec r}_{\xi l}}(t)}}{e^{j{\phi _{0}}}},
+g_\xi\left( t \right) = \mathop \sum \limits_{l = 1}^L {{\rm{\Xi }}_l}\left( t \right){e^{j{{\rm{\Psi }}_l}\left( t \right)}}{e^{ - j{{\vec k}_{\xi l}(t)}\cdot{{\vec r}_{\xi l}}(t)}}{e^{j{\phi _{l 0}}}},
 \end{equation}
-where $\xi\!\in\!\left\{1,2\right\}$ is the index of MS antenna, ${\vec k}_{\xi l}(t)$ and ${\vec r}_{\xi l}(t)$ are the wave vector of the $l$th path impinging the MS and the position vector of the corresponding scatterer, respectively. $\big\|{{\vec k}_{\xi l}(t)}\big\|\!=\!{2\pi}/{\lambda}$ is the angular wavenumber.
+where $\xi\!\in\!\left\{1,2\right\}$ is the index of MS antenna, ${\vec k}_{\xi l}(t)$ and ${\vec r}_{\xi l}(t)$ are the wave vector of the $l$th path impinging the MS and the relative position vector from the corresponding scatterer to the MS antennas, respectively. $\big\|{{\vec k}_{\xi l}(t)}\big\|\!=\!{2\pi}/{\lambda}$ is the angular wavenumber.
 ${\vec r}_{\xi l}(t+\tau)={\vec r}_{\xi l}(t)+{\vec v}\tau$, ${\vec v}$ is the velocity vector of the MS.
-${{\rm{\Xi }}_l}\!\left( t \right)$, ${{\rm{\Psi }}_l}\!\left( t \right)$ are two independent random variables representing amplitude gain and frequency shift of the $l$th path, respectively,
-and ${\phi _{0}}$ is  the random initial phase of the $l$th path.
+${{\rm{\Xi }}_l}\!\left( t \right)$, ${{\rm{\Psi }}_l}\!\left( t \right)$ are two independent random variables representing the random reflection coefficient and the phase shift of the $l$th path, respectively.
+${\phi _{l 0}}$ is  the random initial phase of the $l$th path.
 For brevity,  we define
 \begin{equation}\label{path}
 {A_l}\left( t \right)\triangleq {{\rm{\Xi }}_l}\left( t \right){e^{j{{\rm{\Psi }}_l}\left( t \right)}},\qquad \left(l=1, 2, \cdots, L\right),
@@ -198,7 +198,7 @@ For brevity,  we define
 and we call $\left\{A_l(t)\!:\! t\!>\!0\right\}$ the {\emph{path gain process}}. $\left\{A_l(t)\right\}$ is assumed to be stationary and ergodic.
 Thus, \eqref{signal} can be rewritten as
 \begin{equation}\label{signalb}
-g_\xi\left( t \right) = \mathop \sum \limits_{l = 1}^L {A_l}\left( t \right){e^{ - j{{\vec k}_{\xi l}(t)}\cdot{{\vec r}_{\xi l}}(t)}}{e^{j{\phi _{0}}}}.
+g_\xi\left( t \right) = \mathop \sum \limits_{l = 1}^L {A_l}\left( t \right){e^{ - j{{\vec k}_{\xi l}(t)}\cdot{{\vec r}_{\xi l}}(t)}}{e^{j{\phi _{l 0}}}}.
 \end{equation}
 Under the assumption of uncorrelated scattering, $A_i(t)$ and $A_j(t)$ are independent for all $i\! \ne \!j$. As $L$ grows, $g_\xi\left( t \right)$ tends to become a zero-mean complex Gaussian process due to the central limit theorem.
 \begin{figure}[t]
@@ -224,7 +224,11 @@ Previous channel models usually assume that the {path gain process} of the recei
 This is based on the implicit assumption that the reflecting scatterers remain static within the interval.
 Granted, this assumption holds in low-speed movement or low-density scattering scenarios.
 However, with the velocity increasing or scattering intensified, this assumption tends to deviate from reality, making the previous channel models less accurate.
-
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.5\textwidth]{idea1.eps}
+\caption{Variation process of multi-path waves of each incidence angle.} \label{idea1}
+\end{figure}
 %Notably, this modeling is not only mathematical tractable in the later analysis, but also has physical meanings.
 %We assume that only single scattering occurs and each scatterer is imagined as a point with negligible physical size.
 %Hence, the scatterers may be assumed to be randomly distributed points within a two-dimensional area according a random spatial pattern.
@@ -293,10 +297,11 @@ Based on the statistical property of $\left\{ A_l{\left(t\right)} \right\}$ and 
 =&\frac{1}{2}\mathbb{E}\!\!\left[  \sum \limits_{l=1}^L\! {A_l\left( t \right)\!{A_l}^*\!\left( {t \!+\! \tau } \right)\mathbf{E}\!{\left[e^{j {{{\vec k}_{2l}}(t + \tau ){{\vec r}_{2l}}(t + \tau ) - j{{\vec k}_{1l}}(t){{\vec r}_{1l}}(t)} }\right]}}  \right]    \\
 \mathop  \approx \limits^{(a)}  & {\frac{1}{2}}\mathbb{E}\left[ {\sum\limits_{l = 1}^L {{A_l}\left( t \right){A_l}^*\left( {t + \tau } \right){\mathbf{E}_{\Theta}\!\!\left[e^{j {{{\vec k}_{1l}}(t)\cdot\left[ {{{\vec r}_{2l}}(t + \tau ) - {{\vec r}_{1l}}(t)} \right]} }\right]}} } \right] \\
 = & {\frac{1}{2}}\sum\limits_{l = 1}^L\!
-{\mathbb{E}\!\left[ {{A_l}\left( t \right)\!{A_l}^*\!\left( {t \!+\! \tau } \right)} \right]{\mathbf{E}_{\Theta}\!\!\left[e^{j{2\pi {f_m}\!\tau\! \cos \left( {\beta  - {\theta}} \right) - j\frac{{2\pi }}{\lambda }d\cos \left( {{\theta}} \right)} }\right]}},
+{\mathbb{E}\!\left[ {{A_l}\left( t \right)\!{A_l}^*\!\left( {t \!+\! \tau } \right)} \right]{\mathbf{E}_{\Theta}\!\!\left[e^{j{2\pi {f_m}\!\tau\! \cos \left( {\beta  - {\theta_l}} \right) - j\frac{{2\pi }}{\lambda }d\cos \left( {{\theta_l  }} \right)} }\right]}},
 \end{aligned}
 \end{equation}
-where$f_m=v/{\lambda}$ is the maximum Doppler frequency, and $(a)$ is because the wave vectors are approximately parallel within the interval.
+where $f_m=v/{\lambda}$ is the maximum Doppler frequency, and $\theta_l$, $l\!=\!1, 2,\cdots,L$, are i.i.d von Mises distributed AOAs.
+$(a)$ is because the wave vectors are approximately parallel within the interval. 
 
 Utilizing the scattering variation process model in the previous section, and
 incorporating the autocorrelation property of \eqref{1pgpauto} into \eqref{corr1},
