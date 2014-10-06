@@ -197,14 +197,14 @@ For brevity,  we define
 \end{equation}
 and we call $\left\{A_l(t)\!:\! t\!>\!0\right\}$ the {\emph{path gain process}}. $\left\{A_l(t)\right\}$ is assumed to be stationary and ergodic.
 Thus, \eqref{signal} can be rewritten as
-\begin{equation}\label{signalb}
+\begin{equation}\label{signalb} 
 g_\xi\left( t \right) = \mathop \sum \limits_{l = 1}^L {A_l}\left( t \right){e^{ - j{{\vec k}_{\xi l}(t)}\cdot{{\vec r}_{\xi l}}(t)}}{e^{j{\phi _{l 0}}}}.
 \end{equation}
 Under the assumption of uncorrelated scattering, $A_i(t)$ and $A_j(t)$ are independent for all $i\! \ne \!j$. As $L$ grows, $g_\xi\left( t \right)$ tends to become a zero-mean complex Gaussian process due to the central limit theorem.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.5\textwidth]{mpm6-2.eps}
-\caption{The local scattering model for multi-path propagation.} \label{mpm}
+\caption{Geometric scattering model for multi-path propagation.} \label{mpm}
 \end{figure}
 
 \subsection{The Angle of Arrival Model}
@@ -220,22 +220,24 @@ The von Mises distribution is a flexible model for the pdf of AOAs, which includ
 What's more, it brings mathematical convenience in analysis like providing determination of closed-form solutions for the correlation functions, power spectra, etc.
 
 \section{Modeling for Variation of Local Scattering}
+The received signal at MS is the sum of multi-path waves impinging from any angle scattered by surrounding local objects.   
 Previous channel models usually assume that the {path gain process} of the received signal components, $\left\{A_l(t)\right\}$, is static within the duration of interest.
 This is based on the implicit assumption that the reflecting scatterers remain static within the interval.
 Granted, this assumption holds in low-speed movement or low-density scattering scenarios.
-However, with the velocity increasing or scattering intensified, this assumption tends to deviate from reality, making the previous channel models less accurate.
-\begin{figure}[t]
+However, with the velocity increasing or scattering intensified, this assumption tends to deviate from reality, making the previous channel models less accurate. As shown in Fig. \ref{idea0}, as the mobile passes through the local scatterers, the signal component from a certain incidence angle, e.g., $\theta_l$, may be blocked or reflected by another object. We call this dynamics of the signal components \emph{scatterer switching events}.
+\begin{figure}[tH]
 \centering
-\includegraphics[width=0.5\textwidth]{idea1.eps}
-\caption{Variation process of multi-path waves of each incidence angle.} \label{idea1}
+\includegraphics[width=0.5\textwidth]{idea0.eps}
+\caption{The variation process of local scattering.} \label{idea0}
 \end{figure}
+
 %Notably, this modeling is not only mathematical tractable in the later analysis, but also has physical meanings.
 %We assume that only single scattering occurs and each scatterer is imagined as a point with negligible physical size.
 %Hence, the scatterers may be assumed to be randomly distributed points within a two-dimensional area according a random spatial pattern.
-In our scenario, each scatterer is assumed to be a point, through which the signal from the BS is reflected to the train.
-We assume  the spatial distribution of surrounding objects to be homogeneous Poisson point process, which is commonly used \cite{spatial}.
+Without loss of generality, each local scatterer is assumed to be a single reflector, thus signals reflected by different scatterers are uncorrelated.  
+And we assume  the spatial distribution of surrounding objects to be homogeneous Poisson point process, which is commonly used \cite{spatial}.
 When the MS moves through, the dynamics of the signal components reflected through these surrounding objects is a temporal stochastic  process  determined by both the objects' spatial distribution and the MS's moving speed.
-Given that the MS moves at a constant speed, the spatial Poisson process is mapped to a temporal Poisson process, which corresponds to the dynamics of the received signal components at the MS.
+Given that the MS moves at a constant speed, the spatial Poisson process is mapped to a temporal Poisson process, which means the scatterer switching events follow a Poisson process.
 Meanwhile, the rate of this temporal Poisson process is proportional to both the spatial density of objects and the MS velocity,
 \begin{equation}\label{lambda0}
 \lambda_0={c_0}v,
@@ -261,10 +263,10 @@ So far, the ground for the variation of local scattering is clarified in the phy
 
 %By now, the spatial point process is mapped into a stationary process over time. The rate parameter $\lambda_0$ of the scattering variation process can be expressed as
 
-Hence, we propose a new channel model with the variation  of reflecting scatterers taken into account.
+Hence, we propose a new channel model with the variation  of reflecting scatterers taken into account as Fig. \ref{idea1}.
 In this model, we assume that each path  gain $A_l(t)$ varies independently according to the same Poisson process.
 The time interval ${\rm{\Delta }}{t_l}$ between two consecutive changes of $A_l(t)$ is exponentially distributed with parameter $\lambda_0$. Within ${\rm{\Delta }}{t_l}$, the {path gain } $A_l(t)$ remains stationary, while after ${\rm{\Delta }}{t_l}$, the waveform of $A_l(t)$ is orthogonal to the previous waveform.
-The { path gain process} is defined as follows,
+The dynamics of { path gain process} may be depicted as follows,
 \begin{equation}\label{fdpa}
 \renewcommand{\arraystretch}{1.5}
 \left\{
@@ -287,6 +289,11 @@ According to the model, we can obtain the characteristics of the autocorrelation
 \end{array} \!\right.
 }\end{equation}
 Based on this modeling, we could analysis how the variation of local scattering affects the channel characteristics.
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.5\textwidth]{idea1.eps}
+\caption{Variation process of multi-path waves of each incidence angle.} \label{idea1}
+\end{figure}
 
 \section{Analysis of Spatial-temporal Correlation Function }
 Based on the statistical property of $\left\{ A_l{\left(t\right)} \right\}$ and $\left\{\theta_l\right\}$, the spatial-temporal correlation of the complex low-pass envelope between two array elements can be written as \cite[p.46]{stuber},
@@ -301,7 +308,7 @@ Based on the statistical property of $\left\{ A_l{\left(t\right)} \right\}$ and 
 \end{aligned}
 \end{equation}
 where $f_m=v/{\lambda}$ is the maximum Doppler frequency, and $\theta_l$, $l\!=\!1, 2,\cdots,L$, are i.i.d von Mises distributed AOAs.
-$(a)$ is because the wave vectors are approximately parallel within the interval. 
+$(a)$ is because the wave vectors are approximately parallel within the interval.
 
 Utilizing the scattering variation process model in the previous section, and
 incorporating the autocorrelation property of \eqref{1pgpauto} into \eqref{corr1},
