@@ -197,7 +197,7 @@ For brevity,  we define
 \end{equation}
 and we call $\left\{A_l(t)\!:\! t\!>\!0\right\}$ the {\emph{path gain process}}. $\left\{A_l(t)\right\}$ is assumed to be stationary and ergodic.
 Thus, \eqref{signal} can be rewritten as
-\begin{equation}\label{signalb} 
+\begin{equation}\label{signalb}
 g_\xi\left( t \right) = \mathop \sum \limits_{l = 1}^L {A_l}\left( t \right){e^{ - j{{\vec k}_{\xi l}(t)}\cdot{{\vec r}_{\xi l}}(t)}}{e^{j{\phi _{l 0}}}}.
 \end{equation}
 Under the assumption of uncorrelated scattering, $A_i(t)$ and $A_j(t)$ are independent for all $i\! \ne \!j$. As $L$ grows, $g_\xi\left( t \right)$ tends to become a zero-mean complex Gaussian process due to the central limit theorem.
@@ -220,24 +220,24 @@ The von Mises distribution is a flexible model for the pdf of AOAs, which includ
 What's more, it brings mathematical convenience in analysis like providing determination of closed-form solutions for the correlation functions, power spectra, etc.
 
 \section{Modeling for Variation of Local Scattering}
-The received signal at MS is the sum of multi-path waves impinging from any angle scattered by surrounding local objects.   
-Previous channel models usually assume that the {path gain process} of the received signal components, $\left\{A_l(t)\right\}$, is static within the duration of interest.
-This is based on the implicit assumption that the reflecting scatterers remain static within the interval.
-Granted, this assumption holds in low-speed movement or low-density scattering scenarios.
-However, with the velocity increasing or scattering intensified, this assumption tends to deviate from reality, making the previous channel models less accurate. As shown in Fig. \ref{idea0}, as the mobile passes through the local scatterers, the signal component from a certain incidence angle, e.g., $\theta_l$, may be blocked or reflected by another object. We call this dynamics of the signal components \emph{scatterer switching events}.
-\begin{figure}[tH]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.5\textwidth]{idea0.eps}
 \caption{The variation process of local scattering.} \label{idea0}
 \end{figure}
+The received signal at MS is the sum of multi-path waves impinging from any angle scattered by surrounding local objects.
+Previous channel models usually assume that the {path gain process} of the received signal components, $\left\{A_l(t)\right\}$, is static within the duration of interest.
+This is based on the implicit assumption that the reflecting scatterers remain static within the interval.
+Granted, this assumption holds in low-speed movement or low-density scattering scenarios.
+However, with the velocity increasing or scattering intensified, this assumption tends to deviate from reality, making the previous channel models less accurate. As shown in Fig. \ref{idea0}, as the mobile passes through the local scatterers, the signal component from a certain incidence angle, e.g., $\theta_l$, may be blocked by or jump to another object. We call this dynamics of the signal components reflected through these surrounding objects \emph{scatterer switching events}. And the dynamics is a temporal stochastic  process  determined by both the objects' spatial distribution and the MS's moving speed.
 
 %Notably, this modeling is not only mathematical tractable in the later analysis, but also has physical meanings.
 %We assume that only single scattering occurs and each scatterer is imagined as a point with negligible physical size.
 %Hence, the scatterers may be assumed to be randomly distributed points within a two-dimensional area according a random spatial pattern.
-Without loss of generality, each local scatterer is assumed to be a single reflector, thus signals reflected by different scatterers are uncorrelated.  
+Without loss of generality, each local scatterer is assumed to be a single reflector, thus signals reflected by different scatterers are uncorrelated.
 And we assume  the spatial distribution of surrounding objects to be homogeneous Poisson point process, which is commonly used \cite{spatial}.
-When the MS moves through, the dynamics of the signal components reflected through these surrounding objects is a temporal stochastic  process  determined by both the objects' spatial distribution and the MS's moving speed.
-Given that the MS moves at a constant speed, the spatial Poisson process is mapped to a temporal Poisson process, which means the scatterer switching events follow a Poisson process.
+%When the MS moves through, the dynamics of the signal components reflected through these surrounding objects is a temporal stochastic  process  determined by both the objects' spatial distribution and the MS's moving speed.
+Given that the MS moves at a constant speed, the spatial Poisson process is mapped to a temporal Poisson process, which means the scatterer switching events follow a uniform Poisson process.
 Meanwhile, the rate of this temporal Poisson process is proportional to both the spatial density of objects and the MS velocity,
 \begin{equation}\label{lambda0}
 \lambda_0={c_0}v,
